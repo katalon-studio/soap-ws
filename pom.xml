@@ -80,7 +80,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.1</version>
+                <version>3.12.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -450,13 +450,9 @@
                                             <fileset dir="${basedir}" includes="README.md"/>
                                         </copy>
 
-                                        <move file="${basedir}/src/site/markdown/README.md"
-                                              tofile="${basedir}/src/site/markdown/manual.md"/>
+                                        <move file="${basedir}/src/site/markdown/README.md" tofile="${basedir}/src/site/markdown/manual.md"/>
 
-                                        <replaceregexp file="${basedir}/src/site/markdown/manual.md"
-                                                       match="```.*"
-                                                       replace=""
-                                                       byline="true"/>
+                                        <replaceregexp file="${basedir}/src/site/markdown/manual.md" match="```.*" replace="" byline="true"/>
 
                                     </target>
                                 </configuration>
@@ -474,20 +470,11 @@
                                         <property name="site_tgz" value="${project.artifactId}-${project.version}-site.tgz"/>
                                         <tar destfile="target/${site_tgz}" basedir="target/site" compression="gzip"/>
                                         <echo message="Creating folder for the site ${version_folder}"/>
-                                        <sshexec host="${reficio.server}"
-                                                 username="${reficio.usr}"
-                                                 password="${reficio.pwd}"
-                                                 verbose="false"
-                                                 command="mkdir -p ${version_folder}"/>
+                                        <sshexec host="${reficio.server}" username="${reficio.usr}" password="${reficio.pwd}" verbose="false" command="mkdir -p ${version_folder}"/>
                                         <echo message="Uploading compressed site ${site_tgz}"/>
-                                        <scp file="target/${site_tgz}" todir="${reficio.usr}@${reficio.server}:${project_folder}/"
-                                             password="${reficio.pwd}" verbose="false"/>
+                                        <scp file="target/${site_tgz}" todir="${reficio.usr}@${reficio.server}:${project_folder}/" password="${reficio.pwd}" verbose="false"/>
                                         <echo message="Extracting compressed site and cleaning up"/>
-                                        <sshexec host="${reficio.server}"
-                                                 username="${reficio.usr}"
-                                                 password="${reficio.pwd}"
-                                                 verbose="false"
-                                                 command="rm -rf ${version_folder}/*; tar -C ${version_folder} -xf ${project_folder}/${site_tgz}; rm ${project_folder}/${project.artifactId}-${project.version}-site.tgz"/>
+                                        <sshexec host="${reficio.server}" username="${reficio.usr}" password="${reficio.pwd}" verbose="false" command="rm -rf ${version_folder}/*; tar -C ${version_folder} -xf ${project_folder}/${site_tgz}; rm ${project_folder}/${project.artifactId}-${project.version}-site.tgz"/>
                                     </tasks>
                                 </configuration>
                                 <goals>
